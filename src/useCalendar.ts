@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { getDaysSinceBOT } from "./utils"
 
 type CSS = React.CSSProperties
 
@@ -8,11 +9,11 @@ type TimePeriodLabel = {
   id: number
 }
 
-type Month = TimePeriodLabel
+export type Month = TimePeriodLabel
 
-type DayOfWeek = TimePeriodLabel
+export type DayOfWeek = TimePeriodLabel
 
-type Day = {
+export type Day = {
   date: Date
   weekday: DayOfWeek
   currentPeriod: boolean
@@ -49,7 +50,8 @@ const today: Day = {
   currentPeriod: true,
 }
 
-const getDaysInMonth = (m: Month['id'], y: number) => {
+const getDaysInMonth = (monthId: Month['id'], y: number) => {
+  const m = monthId + 1
   return m === 2
     ? y & 3 || (!(y % 25) && y & 15)
       ? 28
@@ -58,7 +60,7 @@ const getDaysInMonth = (m: Month['id'], y: number) => {
 }
 
 const getDays = (month: Month, year: number): Day[] => {
-  const daysInCurrentMonth = getDaysInMonth(month.id + 1, year)
+  const daysInCurrentMonth = getDaysInMonth(month.id, year)
   return new Array(daysInCurrentMonth).fill(undefined).map((_, index) => {
     const date = new Date(year, month.id, index + 1)
     return {
@@ -75,6 +77,7 @@ type DayStyleOptions = {
   defaultBorderColor?: CSS['borderColor']
   defaultBackground?: CSS['background']
   defaultTextColor?: CSS['color']
+  defaultFontSize?: CSS['fontSize']
   currentDayBorderWidth?: CSS['borderWidth']
   currentDayBorderColor?: CSS['borderColor']
   currentDayBorderStyle?: CSS['borderStyle']
@@ -85,6 +88,7 @@ type DayStyleOptions = {
   pastBorderStyle?: CSS['borderStyle']
   pastBackground?: CSS['background']
   pastTextColor?: CSS['color']
+  pastFontWeight?: CSS["fontWeight"]
   futureBorderWidth?: CSS['borderWidth']
   futureBorderColor?: CSS['borderColor']
   futureBorderStyle?: CSS['borderStyle']
@@ -112,6 +116,9 @@ const getDayStyle = (
     options?.defaultBackground || 'rgba(0,0,0,0)'
   const defaultTextColor: CSS['color'] =
     options?.defaultTextColor || 'rgba(0,0,0,1)'
+  const defaultFontWeight: CSS['fontWeight'] = 500
+  const defaultFontSize: CSS['fontSize'] = "1.5rem"
+  
   const currentDayBorderStyle: CSS['borderStyle'] =
     options?.currentDayBorderStyle || defaultBorderStyle
   const currentDayBorerWidth: CSS['borderWidth'] =
@@ -121,7 +128,8 @@ const getDayStyle = (
   const currentDayBackground: CSS['background'] =
     options?.currentDayBackground || 'rgba(0, 105, 225, 0.75)'
   const currentDayTextColor: CSS['color'] =
-    options?.currentDayTextColor || 'rgb(178, 198, 221)'
+    options?.currentDayTextColor || '#1A237E'
+  
   const pastBorderStyle: CSS['borderStyle'] =
     options?.pastBorderStyle || defaultBorderStyle
   const pastBorderWidth: CSS['borderWidth'] =
@@ -131,6 +139,8 @@ const getDayStyle = (
   const pastBackground: CSS['background'] =
     options?.pastBackground || defaultBackground
   const pastTextColor: CSS['color'] = options?.pastTextColor || defaultTextColor
+  const pastFontWeight: CSS['fontWeight'] = options?.pastFontWeight || defaultFontWeight
+
   const futureBorderStyle: CSS['borderStyle'] =
     options?.futureBorderStyle || defaultBorderStyle
   const futureBorderWidth: CSS['borderWidth'] =
@@ -141,6 +151,7 @@ const getDayStyle = (
     options?.futureBackground || defaultBackground
   const futureTextColor: CSS['color'] =
     options?.futureTextColor || defaultTextColor
+  
   const todayBorderStyle: CSS['borderStyle'] =
     options?.todayBorderStyle || defaultBorderStyle
   const todayBorderWidth: CSS['borderWidth'] =
@@ -150,25 +161,22 @@ const getDayStyle = (
   const todayBackground: CSS['background'] =
     options?.todayBackground || 'rgba(255, 119, 119, 0.75)'
   const todayTextColor: CSS['color'] =
-    options?.todayTextColor || 'rgb(255, 220, 220)'
+    options?.todayTextColor || '#880E4F'
 
   const styles: CSS = {}
-  const getDaysSinceBOT = (date: Date) => {
-    const intDate = new Date(date)
-    intDate.setHours(0, 0, 0, 0)
-    return Math.floor(Number(intDate) / 86400000)
-  }
+  
   const isToday = getDaysSinceBOT(day.date) === getDaysSinceBOT(today.date)
   const isCurrentDay =
     getDaysSinceBOT(day.date) === getDaysSinceBOT(currentDay.date)
   const isPast = getDaysSinceBOT(day.date) < getDaysSinceBOT(today.date)
-
+  styles['fontSize'] = defaultFontSize;
   if (isPast) {
     styles['borderStyle'] = pastBorderStyle
     styles['borderColor'] = pastBorderColor
     styles['borderWidth'] = pastBorderWidth
     styles['background'] = pastBackground
     styles['color'] = pastTextColor
+    styles['fontWeight'] = pastFontWeight
   }
   if (isCurrentDay) {
     styles['borderStyle'] = currentDayBorderStyle
@@ -176,12 +184,14 @@ const getDayStyle = (
     styles['borderWidth'] = currentDayBorerWidth
     styles['background'] = currentDayBackground
     styles['color'] = currentDayTextColor
-  } else {
+  }
+  if(!isPast && !isCurrentDay) {
     styles['borderWidth'] = futureBorderWidth
     styles['borderColor'] = futureBorderColor
     styles['borderStyle'] = futureBorderStyle
     styles['background'] = futureBackground
     styles['color'] = futureTextColor
+
   }
   if (isToday) {
     styles['borderStyle'] = todayBorderStyle
@@ -220,7 +230,7 @@ const getNextMonth = (thisMonth: Month) =>
   months.find((month) => month.id === (thisMonth.id + 1) % 12) || months[1]
 
 const getLastMonth = (thisMonth: Month) =>
-  months.find((month) => (month.id = thisMonth.id - 1)) || months[11]
+  months.find((month) => (month.id === thisMonth.id - 1)) || months[11]
 
 export const useCalendar = () => {
   const [currentDay, setCurrentDay] = useState(today)
@@ -317,15 +327,17 @@ export const useCalendar = () => {
   }, [currentDay])
 
   return {
+    weekdays,
     currentDay,
-    currentMonth,
+    displayDays,
     currentYear,
+    currentMonth,
+    selectDay,
+    getDayStyle,
+    getNextMonth,
+    getLastMonth,
     loadPrevMonth,
     loadNextMonth,
-    weekdays,
-    displayDays,
-    getDayStyle,
-    selectDay,
-    useCalendarEffects
+    useCalendarEffects,
   }
 }
