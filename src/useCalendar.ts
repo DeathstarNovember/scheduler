@@ -350,6 +350,12 @@ export const getWeekByDate = (date: Date): Week => {
   }
 }
 
+export enum DisplayMode {
+  month,
+  week,
+  day
+}
+
 export const useCalendar = (selectedDay?: Day) => {
   const [currentDay, setCurrentDay] = useState(selectedDay || today)
 
