@@ -298,35 +298,36 @@ const getMonthFromDate = (date: Date): Month => {
   return months[date.getMonth()]
 }
 
-const getFirstDayOfYear = (year: number): Date => {
-  return new Date(year, 0, 1)
-}
-const getLastDayOfYear = (year: number): Date => {
-  return new Date(year, 11, 31)
-}
+// const getFirstDayOfYear = (year: number): Date => {
+//   return new Date(year, 0, 1)
+// }
+
+// const getLastDayOfYear = (year: number): Date => {
+//   return new Date(year, 11, 31)
+// }
 
 const getFirstDayOfWeek = (date: Date) => {
   return new Date(Number(date) - (date.getDay() * msInADay))
 }
 
-const getFirstWeekOfYear = (year: number): Week => {
-  const firstDayOfYear = getFirstDayOfYear(year);
+// const getFirstWeekOfYear = (year: number): Week => {
+//   const firstDayOfYear = getFirstDayOfYear(year);
 
-  const firstDayOfWeek = getFirstDayOfWeek(firstDayOfYear);
+//   const firstDayOfWeek = getFirstDayOfWeek(firstDayOfYear);
 
-  return {
-    id: 0,
-    firstDay: firstDayOfWeek
-  }
-}
+//   return {
+//     id: 0,
+//     firstDay: firstDayOfWeek
+//   }
+// }
 
-const getWeekdayFromWeek = (week: Week, weekday: DayOfWeek): Day => {
-  return {
-    date: new Date(Number(week.firstDay) + (weekday.id * msInADay)),
-    weekday, 
-    currentPeriod: false
-  }
-}
+// const getWeekdayFromWeek = (week: Week, weekday: DayOfWeek): Day => {
+//   return {
+//     date: new Date(Number(week.firstDay) + (weekday.id * msInADay)),
+//     weekday, 
+//     currentPeriod: false
+//   }
+// }
 
 const getWeekNumber = (date: Date) => {
   // Thursday in current week decides the year.

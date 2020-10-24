@@ -16,7 +16,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
       hideForm={() => setFormVisible(false)}
     />
   ) : (
-    <div onClick={() => setFormVisible(true)}>
+    <div style={{ fontSize: '1rem' }} onClick={() => setFormVisible(true)}>
       {event.title}
       {event.description}
     </div>

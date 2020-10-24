@@ -6,7 +6,7 @@ import { Layout } from './Layout'
 import { CalendarContext } from './Providers'
 import { WeekdayHeader } from './WeekdayHeader'
 
-export const WeekCalendar: React.FC = ({}) => {
+export const WeekCalendar: React.FC = () => {
   const {
     calendar: { weekDisplayDays },
   } = useContext(CalendarContext)
@@ -21,7 +21,13 @@ export const WeekCalendar: React.FC = ({}) => {
         gridHeight={`calc(100vh - 9.625rem)`}
       >
         {weekDisplayDays.map((day, dayIndex) => {
-          return <CalendarDay day={day} key={`DayDisplay${dayIndex}`} />
+          return (
+            <CalendarDay
+              day={day}
+              key={`DayDisplay${dayIndex}`}
+              showHours={true}
+            />
+          )
         })}
       </CalendarGrid>
     </Layout>
