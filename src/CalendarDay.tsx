@@ -1,33 +1,28 @@
-import React from 'react'
-import { Event } from './useEvents'
-import { useCalendar, Day } from './useCalendar'
+import React, { useContext } from 'react'
+import { Day } from './useCalendar'
 import { daysAreEqual } from './utils'
 import { EventCard } from './EventCard'
+import { CalendarContext, EventsContext } from './Providers'
 
 type CalendarDayProps = {
   day: Day
-  dayName: string
-  events: Event[]
-  addEvent: (event: Event) => void
-  currentDay: Day
-  select: (day: Day) => void
 }
 
-export const CalendarDay: React.FC<CalendarDayProps> = ({
-  day,
-  dayName,
-  events,
-  addEvent,
-  currentDay,
-  select,
-}) => {
-  const { getDayStyle } = useCalendar()
+export const CalendarDay: React.FC<CalendarDayProps> = ({ day }) => {
+  const {
+    calendar: { currentDay, selectDay, getDayStyle },
+  } = useContext(CalendarContext)
+
+  const {
+    events: { events, addEvent },
+  } = useContext(EventsContext)
 
   const selected = daysAreEqual(currentDay.date, day.date)
 
   const handleClick = () => {
     if (!selected) {
-      select(day)
+      console.warn({ day })
+      selectDay(day)
     }
   }
 
@@ -49,7 +44,10 @@ export const CalendarDay: React.FC<CalendarDayProps> = ({
         </div>
       </div>
       {events.map((event, eventIndex) => (
-        <EventCard key={`event${eventIndex}${dayName}`} event={event} />
+        <EventCard
+          key={`event${eventIndex}${currentDay.weekday.name}`}
+          event={event}
+        />
       ))}
     </div>
   )

@@ -1,28 +1,26 @@
 import React, { useContext } from 'react'
-import { CalendarContext } from './Providers'
-import { Layout } from './Layout'
 import { CalendarDay } from './CalendarDay'
-import { MonthlyCalendarHeader } from './CalendarHeader'
-import { WeekdayHeader } from './WeekdayHeader'
 import { CalendarGrid } from './CalendarGrid'
+import { WeeklyCalendarHeader } from './CalendarHeader'
+import { Layout } from './Layout'
+import { CalendarContext } from './Providers'
+import { WeekdayHeader } from './WeekdayHeader'
 
-type MonthCalendarProps = {}
-
-export const MonthCalendar: React.FC<MonthCalendarProps> = () => {
+export const WeekCalendar: React.FC = ({}) => {
   const {
-    calendar: { monthDisplayDays },
+    calendar: { weekDisplayDays },
   } = useContext(CalendarContext)
 
   return (
     <Layout>
-      <MonthlyCalendarHeader />
+      <WeeklyCalendarHeader />
       <WeekdayHeader />
       <CalendarGrid
         gridColumns={7}
-        gridRows={monthDisplayDays.length / 7}
+        gridRows={1}
         gridHeight={`calc(100vh - 9.625rem)`}
       >
-        {monthDisplayDays.map((day, dayIndex) => {
+        {weekDisplayDays.map((day, dayIndex) => {
           return <CalendarDay day={day} key={`DayDisplay${dayIndex}`} />
         })}
       </CalendarGrid>

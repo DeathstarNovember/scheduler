@@ -1,4 +1,5 @@
 import { useState } from "react"
+
 import { Day, Month } from "./useCalendar"
 import { daysAreEqual, getDaysSinceBOT } from "./utils"
 
@@ -15,7 +16,9 @@ export type Event = {
 
 const getMonthEvents = (events: Event[], month: Month, year: number) => {
   const eventMonth = (event: Event) => event.startDate.getMonth()
+
   const eventYear = (event: Event) => event.startDate.getFullYear()
+
   return events.filter(
     (event) => eventMonth(event) === month.id && eventYear(event) === year,
   )
@@ -36,5 +39,23 @@ export const useEvents = (initialEvents?: Event[]) => {
     )
   }
 
-  return {events, setEvents, addEvent, getDayEvents, getMonthEvents}
+  const calendarEvents: Events = {events, setEvents, addEvent, getDayEvents, getMonthEvents}
+
+  return calendarEvents
+}
+
+export type Events = {
+  events: Event[];
+  setEvents: React.Dispatch<React.SetStateAction<Event[]>>;
+  addEvent: (event: Event) => void;
+  getDayEvents: (events: Event[], day: Day) => Event[];
+  getMonthEvents: (events: Event[], month: Month, year: number) => Event[];
+}
+
+export const defaultEvents: Events = {
+  events: [],
+  setEvents: () => { },
+  addEvent: () => { },
+  getDayEvents: () => ([{ title: "new event", startDate: new Date() }]),
+  getMonthEvents: () => ([{ title: "new event", startDate: new Date() }]),
 }
