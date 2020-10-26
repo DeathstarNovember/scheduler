@@ -490,6 +490,7 @@ const getLastMonth = () =>
   }, [currentDay])
 
   const calendar: Calendar = {
+    today,
     weekdays,
     currentDay,
     currentWeek,
@@ -516,6 +517,7 @@ const getLastMonth = () =>
 
 export type Calendar = {
   weekdays: DayOfWeek[],
+  today: Day,
     currentDay: Day,
     currentWeek: Week,
     currentYear: number,
@@ -537,6 +539,7 @@ export type Calendar = {
 }
 
 export const defaultCalendar: Calendar = {
+  today,
   weekdays,
   currentDay: today,
   currentWeek: getWeekByDate(today.date),

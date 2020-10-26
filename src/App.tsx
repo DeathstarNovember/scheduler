@@ -13,20 +13,21 @@ const App = () => {
 
   const calendar = useCalendar()
 
-  const { useCalendarEffects } = calendar
+  const { useCalendarEffects, selectDay, today } = calendar
 
   useCalendarEffects()
 
-  const calendarEvents = useEvents(initialEvents)
+  const events = useEvents(initialEvents)
 
   return (
-    <Providers events={calendarEvents} calendar={calendar}>
+    <Providers events={events} calendar={calendar}>
       <div style={{ display: 'flex' }}>
         <div
           style={{
+            cursor: 'pointer',
             padding: 5,
             background:
-              displayMode === DisplayMode.month ? 'lightray' : undefined,
+              displayMode === DisplayMode.month ? 'lightgray' : undefined,
           }}
           onClick={() => setDisplayMode(DisplayMode.month)}
         >
@@ -34,13 +35,23 @@ const App = () => {
         </div>
         <div
           style={{
+            cursor: 'pointer',
             padding: 5,
             background:
-              displayMode === DisplayMode.week ? 'lightray' : undefined,
+              displayMode === DisplayMode.week ? 'lightgray' : undefined,
           }}
           onClick={() => setDisplayMode(DisplayMode.week)}
         >
           week
+        </div>
+        <div
+          style={{
+            cursor: 'pointer',
+            padding: 5,
+          }}
+          onClick={() => selectDay(today)}
+        >
+          today
         </div>
       </div>
       {displayMode === DisplayMode.month ? <MonthCalendar /> : null}
