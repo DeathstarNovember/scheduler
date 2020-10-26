@@ -1,9 +1,9 @@
 import React, { useContext, useRef } from 'react'
-import { Day, msInADay, msInAnHour } from './useCalendar'
+import { Day, msInAnHour } from './useCalendar'
 import { daysAreEqual } from './utils'
 import { EventCard } from './EventCard'
 import { CalendarContext, EventsContext } from './Providers'
-import { Event, NewEvent } from './useEvents'
+import { NewEvent } from './useEvents'
 
 type CalendarDayProps = {
   day: Day

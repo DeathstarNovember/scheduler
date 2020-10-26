@@ -338,7 +338,6 @@ const getWeekNumber = (date: Date) => {
 
   const firstDayOfWeek1 = getFirstDayOfWeek(jan4);
   
-  // Count number of weeks from week1 to current week.
   return Math.floor((differenceInDays(firstDayOfWeek1, firstDayOfWeek)) / 7) +1;
 }
 

@@ -1,5 +1,4 @@
 import { useState } from "react"
-
 import { Day, Month } from "./useCalendar"
 import { daysAreEqual } from "./utils"
 
@@ -27,11 +26,12 @@ const getMonthEvents = (events: Event[], month: Month, year: number) => {
     (event) => eventMonth(event) === month.id && eventYear(event) === year,
   )
 }
+
 const getDayEvents = (events: Event[], day: Day) => {
   return events.filter((event) => daysAreEqual(event.startDate, day.date))
 }
+
 const getHourEvents = (events: Event[], start: Date) => {
-  
   return events.filter((event) => {
     return daysAreEqual(event.startDate, start) && event.startTimeHours === start.getHours()
   })
@@ -48,12 +48,15 @@ export const useEvents = (initialEvents?: Event[]) => {
 
   const updateEvent = (event: Event) => {
     const eventToReplace = events.find(e => e.id === event.id);
+
     if (!eventToReplace) throw new Error(`event with id ${event.id} does not exist.`)
+
     setEvents([...events.filter(e => e.id !== event.id), event])
   }
 
   const deleteEvent = (event: Event) => {
     const newEvents = events.filter(e => e.id !== event.id)
+
     setEvents(newEvents);
   } 
 
