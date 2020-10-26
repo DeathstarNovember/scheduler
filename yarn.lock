@@ -10393,6 +10393,11 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
+use-events-calendar-react@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/use-events-calendar-react/-/use-events-calendar-react-0.1.9.tgz#fdd5cca96cd34387c54bd3effdf8aef609c47ff2"
+  integrity sha512-dCAhtof7yjdIzUkUrFDQ57tq+cFBh0VjVvyQx41gunB7b84aGBGbCdA6odPEkJJlA2xozMX4sYDc3Gu7p5zggg==
+
 use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"

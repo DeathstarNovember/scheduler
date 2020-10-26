@@ -1,5 +1,5 @@
 import React from 'react'
-import { DayOfWeek } from './useCalendar'
+import { DayOfWeek } from 'use-events-calendar-react'
 
 export const WeekdayLabel: React.FC<{ weekday: DayOfWeek }> = ({ weekday }) => {
   return (

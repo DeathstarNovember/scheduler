@@ -1,26 +1,21 @@
 import React, { useState } from 'react'
 // import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { Event, useEvents } from './useEvents'
+import useEventsCalendar, { DisplayMode } from 'use-events-calendar-react'
 import { Providers } from './Providers'
 import { MonthCalendar } from './MonthCalendar'
-import { DisplayMode, useCalendar } from './useCalendar'
 import { WeekCalendar } from './WeekCalendar'
-
-const initialEvents: Event[] = []
 
 const App = () => {
   const [displayMode, setDisplayMode] = useState<DisplayMode>(DisplayMode.month)
 
-  const calendar = useCalendar()
+  const { calendar, calendarEvents } = useEventsCalendar([])
 
   const { useCalendarEffects, selectDay, today } = calendar
 
   useCalendarEffects()
 
-  const events = useEvents(initialEvents)
-
   return (
-    <Providers events={events} calendar={calendar}>
+    <Providers events={calendarEvents} calendar={calendar}>
       <div style={{ display: 'flex' }}>
         <div
           style={{

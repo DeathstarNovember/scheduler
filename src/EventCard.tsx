@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { EventForm } from './EventForm'
-import { Event } from './useEvents'
+import { CalendarEvent } from 'use-events-calendar-react'
 
 type EventCardProps = {
-  event: Event
+  event: CalendarEvent
 }
 
 export const EventCard: React.FC<EventCardProps> = ({ event }) => {

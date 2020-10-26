@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { Modal } from './Modal'
 import { EventsContext } from './Providers'
-import { Event } from './useEvents'
-import { differenceInDays } from './utils'
+import { msInADay, CalendarEvent } from 'use-events-calendar-react'
 
 type EventFormProps = {
-  event: Event
+  event: CalendarEvent
   hideForm: () => void
   visible: boolean
 }
@@ -111,7 +110,7 @@ export const EventForm: React.FC<EventFormProps> = ({
 
   const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault()
-    const value: Event = {
+    const value: CalendarEvent = {
       ...event,
       title,
       description,
@@ -210,7 +209,7 @@ export const EventForm: React.FC<EventFormProps> = ({
       return
     }
 
-    if (differenceInDays(event.startDate, candidateEndDate) > 0) {
+    if (Number(candidateEndDate) - Number(event.startDate) > msInADay) {
       setEndDate(candidateEndDate)
       setEndDateInput(formattedDate)
     }

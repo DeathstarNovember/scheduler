@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { CalendarContext } from './Providers'
-import { msInAWeek } from './useCalendar'
+import { msInAWeek } from 'use-events-calendar-react'
 
 export const MonthlyCalendarHeader: React.FC<{}> = () => {
   const { calendar } = useContext(CalendarContext)

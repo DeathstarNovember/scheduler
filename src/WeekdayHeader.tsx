@@ -1,10 +1,8 @@
 import React from 'react'
-import { useCalendar } from './useCalendar'
+import { weekdays } from 'use-events-calendar-react'
 import { WeekdayLabel } from './WeekdayLabel'
 
 export const WeekdayHeader: React.FC = () => {
-  const { weekdays } = useCalendar()
-
   return (
     <div
       style={{

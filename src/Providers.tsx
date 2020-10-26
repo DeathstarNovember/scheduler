@@ -1,10 +1,14 @@
 import React from 'react'
-import { Calendar, defaultCalendar } from './useCalendar'
-import { defaultEvents, Events } from './useEvents'
+import {
+  UseCalendar,
+  UseEvents,
+  defaultCalendar,
+  defaultEvents,
+} from 'use-events-calendar-react'
 
 type ProvidersProps = {
-  events: Events
-  calendar: Calendar
+  events: UseEvents
+  calendar: UseCalendar
 }
 
 export const Providers: React.FC<ProvidersProps> = ({
@@ -20,13 +24,11 @@ export const Providers: React.FC<ProvidersProps> = ({
 }
 
 export const EventsContext = React.createContext<{
-  events: Events
-}>({
-  events: defaultEvents,
-})
+  events: UseEvents
+}>({ events: defaultEvents })
 
 export const EventsProvider: React.FC<{
-  events: Events
+  events: UseEvents
 }> = ({ events, children }) => {
   return (
     <EventsContext.Provider value={{ events }}>
@@ -36,11 +38,11 @@ export const EventsProvider: React.FC<{
 }
 
 export const CalendarContext = React.createContext<{
-  calendar: Calendar
+  calendar: UseCalendar
 }>({ calendar: defaultCalendar })
 
 export const CalendarProvider: React.FC<{
-  calendar: Calendar
+  calendar: UseCalendar
 }> = ({ calendar, children }) => {
   return (
     <CalendarContext.Provider value={{ calendar }}>

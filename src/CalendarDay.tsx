@@ -1,9 +1,7 @@
 import React, { useContext, useRef } from 'react'
-import { Day, msInAnHour } from './useCalendar'
-import { daysAreEqual } from './utils'
+import { Day, msInAnHour, NewCalendarEvent } from 'use-events-calendar-react'
 import { EventCard } from './EventCard'
 import { CalendarContext, EventsContext } from './Providers'
-import { NewEvent } from './useEvents'
 
 type CalendarDayProps = {
   day: Day
@@ -33,7 +31,7 @@ export const CalendarDay: React.FC<CalendarDayProps> = ({
 
   const dayEvents = getDayEvents(events, day)
 
-  const selected = daysAreEqual(currentDay.date, day.date)
+  const selected = currentDay.date.toDateString() === day.date.toDateString()
 
   const dayTileRef = useRef<HTMLDivElement>(null)
 
@@ -44,8 +42,10 @@ export const CalendarDay: React.FC<CalendarDayProps> = ({
     (dayHeaderRef.current?.scrollHeight || 0)
 
   const dayStyles: React.CSSProperties = getDayStyle(day, currentDay, {
-    pastFontWeight: 200,
-    pastTextColor: '#868686',
+    pastDayStyles: {
+      fontWeight: 200,
+      color: '#868686',
+    },
   })
 
   const handleClick = () => {
@@ -120,7 +120,7 @@ const HourTile: React.FC<{
     calendar: { currentDay },
   } = useContext(CalendarContext)
 
-  const daySelected = daysAreEqual(day.date, currentDay.date)
+  const daySelected = day.date.toDateString() === currentDay.date.toDateString()
 
   const {
     events: { events: allEvents, addEvent, getHourEvents },
@@ -159,7 +159,7 @@ const HourTile: React.FC<{
       0,
     )
     const endDate = getNextHour(startDate)
-    const newEvent: NewEvent = {
+    const newEvent: NewCalendarEvent = {
       title: 'New Event',
       startDate,
       startTimeHours: startDate.getHours(),
