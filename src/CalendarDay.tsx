@@ -1,8 +1,9 @@
 import React, { useContext, useRef } from 'react'
-import { Day } from './useCalendar'
+import { Day, msInADay, msInAnHour } from './useCalendar'
 import { daysAreEqual } from './utils'
 import { EventCard } from './EventCard'
 import { CalendarContext, EventsContext } from './Providers'
+import { Event, NewEvent } from './useEvents'
 
 type CalendarDayProps = {
   day: Day
@@ -54,7 +55,18 @@ export const CalendarDay: React.FC<CalendarDayProps> = ({
   }
 
   const handleAddEvent = () => {
-    addEvent({ title: 'New Event', startDate: day.date })
+    const newEvent = {
+      title: 'New Event',
+      startDate: day.date,
+      startTimeHours: 0,
+      startTimeMinutes: 0,
+      endDate: day.date,
+      endTimeHours: 0,
+      endTimeMinutes: 0,
+      allDay: true,
+    }
+    console.warn({ newEvent })
+    addEvent(newEvent)
   }
 
   return (
@@ -107,10 +119,13 @@ const HourTile: React.FC<{
   const {
     calendar: { currentDay },
   } = useContext(CalendarContext)
+
   const daySelected = daysAreEqual(day.date, currentDay.date)
+
   const {
     events: { events: allEvents, addEvent, getHourEvents },
   } = useContext(EventsContext)
+
   const start = new Date(
     day.date.getFullYear(),
     day.date.getMonth(),
@@ -119,10 +134,48 @@ const HourTile: React.FC<{
     0,
     0,
   )
+
   const events = getHourEvents(allEvents, start)
-  const handleAddEvent = () => {
-    addEvent({ title: 'New Event', startDate: start })
+
+  const getNextHour = (date: Date) => {
+    return new Date(Number(date) + msInAnHour)
   }
+  // const getNextDay = (date: Date) => {
+  //   return new Date(Number(date) + msInADay)
+  // }
+  // const getPrevDay = (date: Date) => {
+  //   return new Date(Number(date) - msInADay)
+  // }
+  // const getPrevHour = (date: Date) => {
+  //   return new Date(Number(date) - msInAnHour)
+  // }
+
+  const handleAddEvent = () => {
+    const startDate = new Date(
+      day.date.getFullYear(),
+      day.date.getMonth(),
+      day.date.getDate(),
+      hour.h24,
+      0,
+    )
+    const endDate = getNextHour(startDate)
+    const newEvent: NewEvent = {
+      title: 'New Event',
+      startDate,
+      startTimeHours: startDate.getHours(),
+      startTimeMinutes: startDate.getMinutes(),
+      endDate,
+      endTimeHours: endDate.getHours(),
+      endTimeMinutes: endDate.getMinutes(),
+      allDay: false,
+    }
+    addEvent(newEvent)
+  }
+
+  const allDayEvents = events.filter((e) => e.allDay)
+
+  const timedEvents = events.filter((e) => !e.allDay)
+
   return (
     <div style={{ borderBottom: 'solid gray 1px' }}>
       <div style={{ display: 'flex' }}>
@@ -132,8 +185,14 @@ const HourTile: React.FC<{
             +
           </div>
         ) : null}
+        {allDayEvents.map((event, eventIndex) => (
+          <EventCard
+            key={`allDayEvent${eventIndex}${day.weekday.name}`}
+            event={event}
+          />
+        ))}
       </div>
-      {events.map((event, eventIndex) => (
+      {timedEvents.map((event, eventIndex) => (
         <EventCard
           key={`event${eventIndex}${day.weekday.name}`}
           event={event}
