@@ -16,7 +16,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "typescript": "~3.7.2",
-    "use-events-calendar-react": "^0.1.9"
+    "use-events-calendar-react": "^0.1.10"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -10,9 +10,7 @@ const App = () => {
 
   const { calendar, calendarEvents } = useEventsCalendar([])
 
-  const { useCalendarEffects, selectDay, today } = calendar
-
-  useCalendarEffects()
+  const { selectDay, today } = calendar
 
   return (
     <Providers events={calendarEvents} calendar={calendar}>
