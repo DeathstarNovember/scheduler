@@ -10393,10 +10393,10 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-use-events-calendar-react@^0.1.10:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/use-events-calendar-react/-/use-events-calendar-react-0.1.10.tgz#3822788b59773be652e1fabbb028129903aebed0"
-  integrity sha512-xIeU75HqOSwVIYC9l/tihwXMAF0w8hchrwDhlDL2i7IahVCLPCfj9JXAJY4Z+qaSSkW1hUENdRY4dJcoYFveZw==
+use-events-calendar-react@^0.1.11:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/use-events-calendar-react/-/use-events-calendar-react-0.1.11.tgz#5cbbf8df0ee4873bff17ecccf44b5643eafacfe6"
+  integrity sha512-oKcpl5VuIUjhdNLvJJJboGsi6az/9xLhf/yREA+lpzioUwDyU27TGV+GkmBjHGVkukC8cA6CkmaXz7kJ1+o2Aw==
 
 use@^3.1.0:
   version "3.1.1"
